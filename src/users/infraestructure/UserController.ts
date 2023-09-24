@@ -12,6 +12,10 @@ export class UserController {
 
   async createUser(req: Request, res: Response) {
     const user: UserData = req.body;
+    if (!user) {
+      res.status(400).send("Usuario vacío");
+      return;
+    }
     const respuesta = await this.repository.run(user);
     if (respuesta == 2) {
       res.status(400).send("No se guardo");
@@ -22,6 +26,11 @@ export class UserController {
 
   async login(req: Request, res: Response) {
     const user: LoginData = req.body;
+    console.log(user);
+    // if (!user.email && !user.password) {
+    //   res.status(400).send("Usuario vacío");
+    //   return;
+    // }
     const respuesta = await this.loginRepository.run(user);
     if (!respuesta) {
       res.status(400).send("Error");
